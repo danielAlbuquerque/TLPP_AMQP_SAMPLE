@@ -12,18 +12,26 @@ Main User Function GetOrders()
 
     Local nI
 
+    Local oProducer := TAMQP():New( '10.0.0.12', 5672, 'guest', 'guest', 1 )
+
     oHttpClient:SetPath( '/api/v1/orders' )
 
     If ( oHttpClient:Get( aHeaders ) )
         jResponse := JsonObject():New()
         jResponse:FromJson( oHttpClient:GetResult() )
 
+        oProducer:QueueDeclare( 'orders_queue', .T., .F., .F. )
+
+
         For nI := 1 To Len( jResponse )
             Conout("")
             Conout("ORDER -> " + cValToChar( nI ))
             Conout( jResponse[nI]:ToJson() )
+
+            oProducer:BasicPublish( '', 'orders_queue', .T., jResponse[nI]:ToJson() )
         Next nI
     EndIf
     
     FreeObj( oHttpClient )
+    FreeObj( oProducer )
 Return

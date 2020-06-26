@@ -1,0 +1,24 @@
+#include 'protheus.ch'
+
+Namespace Teste.RabbitMQ
+
+Main User Function HandleOrders()
+    Local oConsumer := TAMQP():New( '10.0.0.12', 5672, 'guest', 'guest', 1 )
+    Local nI
+    Local oOrder := JsonObject():New()
+
+    oConsumer:QueueDeclare( 'orders_queue', .T., .F., .F. )
+
+    For nI := 1 To oConsumer:MessageCount()
+        oConsumer:BasicConsume( '', .F. )
+        
+        oOrder:FromJson( oConsumer:Body )
+
+        Conout("GERANDO ORDER -> " + cvaltochar( nI ))
+        Conout( oOrder:ToJson() )
+
+        oConsumer:BasicAck( nI, .F. )
+    Next nI
+
+    FreeObj( oConsumer )
+Return
