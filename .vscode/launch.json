@@ -24,7 +24,26 @@
 			"args": [],
 			"label": "Teste.RabbitMQ.u_GetOrders",
 			"description": ""
+		},
+		{
+			"args": [
+				"()"
+			],
+			"label": "Teste.RabbitMQ.u_HandleOrders",
+			"description": "()"
+		},
+		{
+			"args": [],
+			"label": "Teste.RabbitMQ.u_HandleOrders",
+			"description": ""
+		},
+		{
+			"args": [
+				"()"
+			],
+			"label": "Teste.RabbitMQ.u_GetOrders",
+			"description": "()"
 		}
 	],
-	"lastProgramExecuted": "Teste.RabbitMQ.u_GetOrders"
+	"lastProgramExecuted": "Teste.RabbitMQ.u_HandleOrders"
 }
