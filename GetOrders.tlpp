@@ -1,0 +1,29 @@
+#include 'protheus.ch'
+
+Namespace Teste.RabbitMQ
+
+Main User Function GetOrders()
+    Local oHttpClient := FWRest():New( 'https://5ef6623d2c0f2c0016949a98.mockapi.io' )
+    Local jResponse   := Nil
+    Local aHeaders    := {;
+        'User-Agent: Mozilla/4.0 (compatible; Protheus '+GetBuild()+')',;
+        'Content-Type: application/json';
+    }
+
+    Local nI
+
+    oHttpClient:SetPath( '/api/v1/orders' )
+
+    If ( oHttpClient:Get( aHeaders ) )
+        jResponse := JsonObject():New()
+        jResponse:FromJson( oHttpClient:GetResult() )
+
+        For nI := 1 To Len( jResponse )
+            Conout("")
+            Conout("ORDER -> " + cValToChar( nI ))
+            Conout( jResponse[nI]:ToJson() )
+        Next nI
+    EndIf
+    
+    FreeObj( oHttpClient )
+Return
